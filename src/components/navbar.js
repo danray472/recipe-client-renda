@@ -11,6 +11,7 @@ export const Navbar = () => {
     window.localStorage.clear();
     navigate("/auth");
   };
+
   return (
     <div className="navbar">
       <Link to="/">Home</Link>
