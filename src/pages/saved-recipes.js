@@ -10,16 +10,19 @@ export const SavedRecipes = () => {
     const fetchSavedRecipes = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/recipes/savedRecipes/${userID}`
+          `${process.env.REACT_APP_BACKEND_URL}/recipes/savedRecipes/${userID}`
         );
         setSavedRecipes(response.data.savedRecipes);
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        console.error("Error fetching saved recipes:", error);
       }
     };
 
-    fetchSavedRecipes();
-  }, []);
+    if (userID) {
+      fetchSavedRecipes();
+    }
+  }, [userID]);
+
   return (
     <div>
       <h1>Saved Recipes</h1>
