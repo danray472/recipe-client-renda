@@ -2,17 +2,20 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 const Login = () => {
   const [_, setCookies] = useCookies(["access_token"]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     try {
       const result = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
@@ -26,6 +29,9 @@ const Login = () => {
     } catch (error) {
       console.error("Login Error:", error);
     }
+    finally {
+    setLoading(false); // Set loading to false after response is received
+  }
   };
 
   return (
@@ -50,7 +56,9 @@ const Login = () => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">
+          {loading ? <Spinner /> : "Login"}
+        </button>
       </form>
     </div>
   );
@@ -59,11 +67,13 @@ const Login = () => {
 const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
         username,
@@ -73,6 +83,9 @@ const Register = () => {
       navigate("/"); // Redirect to login or homepage after registration
     } catch (error) {
       console.error("Registration Error:", error);
+    }
+    finally {
+      setLoading(false); // Set loading to false after response is received
     }
   };
 
@@ -98,7 +111,9 @@ const Register = () => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit">
+          {loading ? <Spinner /> : "Register"}
+        </button>
       </form>
     </div>
   );
