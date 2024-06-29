@@ -3,9 +3,8 @@ import { CircleLoader } from 'react-spinners';
 
 const MyLoader = () => {
   return (
-    <div className="loader-container">
-      <div style={{marginBottom: '50%'}}></div>
-      <CircleLoader color="#4CAF50" loading={true} size={100} />
+    <div className="">
+      <CircleLoader />
     </div>
   );
 }
